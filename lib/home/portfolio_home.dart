@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:irfan/home/portfolio_about.dart';
+import 'package:irfan/home/portfolio_footer.dart';
+import 'package:irfan/home/portfolio_section.dart';
+import 'package:irfan/home/portfolio_tech.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../widgets/contact_button.dart';
 import '../widgets/social_icon_button.dart';
 
@@ -63,6 +68,16 @@ class PortfolioHome extends StatelessWidget {
     );
   }
 
+  Future<void> _openWhatsApp() async {
+    const phone = "919876543210"; // ← your WhatsApp number
+    final message = Uri.encodeComponent("Hi Irfan! 👋 I saw your portfolio.");
+    final url = Uri.parse("https://wa.me/$phone?text=$message");
+
+    if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
+  }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -71,6 +86,14 @@ class PortfolioHome extends StatelessWidget {
     final bool isDesktop = screenSize.width >= 1024;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: _openWhatsApp,
+        child:  Icon(Icons.whatshot_sharp, color: Colors.white, size: 30),
+      ),
+
+      // Optional: position control
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: isMobile
           ? AppBar(
               elevation: 0,
@@ -101,7 +124,6 @@ class PortfolioHome extends StatelessWidget {
                     ),
                     ListTile(title: const Text('Work'), onTap: () => Navigator.pop(context)),
                     ListTile(title: const Text('About'), onTap: () => Navigator.pop(context)),
-                    ListTile(title: const Text('Hire Me'), onTap: () => Navigator.pop(context)),
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -160,8 +182,6 @@ class PortfolioHome extends StatelessWidget {
                       SizedBox(width: 20.w),
                       _buildNavItem("About", () {}),
                       SizedBox(width: 20.w),
-                      _buildNavItem("Hire Me", () {}),
-                      SizedBox(width: 20.w),
                       _buildDownloadButton(),
                     ],
                   ),
@@ -201,6 +221,11 @@ class PortfolioHome extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  PortfolioSection(),
+                  AboutSection(),
+                  TechSection(),
+                  FooterSection()
                 ],
               ),
             ),
