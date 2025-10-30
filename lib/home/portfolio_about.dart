@@ -94,35 +94,25 @@ class AboutSection extends StatelessWidget {
   }
 
   // 🧍 Profile Image Section
-  Widget _buildProfileImage() {
-    return Container(
-      width: 300.w,
-      height: 350.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.r),
-        child: Image.asset(
-          "assets/images/profile2.jpeg",
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => Container(
-            color: Colors.grey[800],
-            child: const Center(
-              child: Icon(Icons.person, color: Colors.white54, size: 80),
-            ),
+Widget _buildProfileImage() {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(30.r),
+    child: AspectRatio(
+      aspectRatio: 1.04, // square image
+      child: Image.asset(
+        "assets/images/irfan.jpg",
+        fit: BoxFit.cover, // maintains aspect ratio, fills box
+        errorBuilder: (context, error, stackTrace) => Container(
+          color: Colors.grey[800],
+          child: const Center(
+            child: Icon(Icons.person, color: Colors.white54, size: 80),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class _SkillChip extends StatelessWidget {

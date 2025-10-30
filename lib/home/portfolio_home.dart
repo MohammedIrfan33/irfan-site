@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:irfan/home/portfolio_about.dart';
 import 'package:irfan/home/portfolio_footer.dart';
 import 'package:irfan/home/portfolio_section.dart';
 import 'package:irfan/home/portfolio_tech.dart';
+import 'package:irfan/utils/helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/contact_button.dart';
 import '../widgets/social_icon_button.dart';
@@ -68,15 +70,7 @@ class PortfolioHome extends StatelessWidget {
     );
   }
 
-  Future<void> _openWhatsApp() async {
-    const phone = "919876543210"; // ← your WhatsApp number
-    final message = Uri.encodeComponent("Hi Irfan! 👋 I saw your portfolio.");
-    final url = Uri.parse("https://wa.me/$phone?text=$message");
 
-    if (!await launchUrl(url)) {
-    throw Exception('Could not launch $url');
-  }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +82,9 @@ class PortfolioHome extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: _openWhatsApp,
-        child:  Icon(Icons.whatshot_sharp, color: Colors.white, size: 30),
+        onPressed: openWhatsApp,
+        shape: CircleBorder(),
+        child:  Icon(FontAwesomeIcons.whatsapp, color: Colors.white, size: 30),
       ),
 
       // Optional: position control
@@ -134,11 +129,17 @@ class PortfolioHome extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          _buildSocialIcon(Icons.link, Colors.blue, () {}),
+                          _buildSocialIcon(Icons.link, Colors.blue, () {
+
+
+                            openLink(link: 'https://surl.lu/knwykh');
+                          }),
                           SizedBox(width: 12.w),
-                          _buildSocialIcon(Icons.code, Colors.white, () {}),
+                          _buildSocialIcon(Icons.code, Colors.white, () {
+
+                          }),
                           SizedBox(width: 12.w),
-                          _buildSocialIcon(Icons.center_focus_strong, Colors.green, () {}),
+                     
                         ],
                       ),
                     )
@@ -290,30 +291,25 @@ class _HeroTexts extends StatelessWidget {
           children: [
             ContactButton(
               onPressed: () {
-                print('Contact button pressed!');
+                openWhatsApp();
               },
             ),
             SocialIconButton(
               icon: Icons.link,
               onPressed: () {
-                print('LinkedIn tapped!');
+                openLink(link: 'https://surl.lu/knwykh');
               },
               tooltip: 'LinkedIn',
             ),
             SocialIconButton(
               icon: Icons.code,
               onPressed: () {
-                print('GitHub tapped!');
+                  openLink(link: 'https://github.com/MohammedIrfan33');
+                
               },
               tooltip: 'GitHub',
             ),
-            SocialIconButton(
-              icon: Icons.center_focus_strong,
-              onPressed: () {
-                print('Center tapped!');
-              },
-              tooltip: 'Center',
-            ),
+            
           ],
         ),
       ],

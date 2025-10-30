@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:irfan/utils/helper.dart';
 
 class FooterSection extends StatelessWidget {
   const FooterSection({super.key});
@@ -76,10 +77,10 @@ class FooterSection extends StatelessWidget {
   // 🌐 Social Media Icons
   Widget _buildSocialIcons() {
     final icons = [
-      {"icon": FontAwesomeIcons.linkedin, "color": Colors.blueAccent},
-      {"icon": FontAwesomeIcons.github, "color": Colors.white},
-      {"icon": FontAwesomeIcons.instagram, "color": Colors.pinkAccent},
-      {"icon": FontAwesomeIcons.envelope, "color": Colors.tealAccent},
+      {"icon": FontAwesomeIcons.linkedin, "color": Colors.blueAccent, "link": "https://surl.lu/knwykh"},
+      {"icon": FontAwesomeIcons.github, "color": Colors.white , "link": "https://github.com/MohammedIrfan33"},
+      {"icon": FontAwesomeIcons.instagram, "color": Colors.pinkAccent, "link": "https://www.instagram.com/irfan__dev?igsh=MWJ1cnR5aHdqYzd2Ng=="},
+      {"icon": FontAwesomeIcons.envelope, "color": Colors.tealAccent, "link" : "email" },
     ];
 
     return Wrap(
@@ -87,7 +88,17 @@ class FooterSection extends StatelessWidget {
       children: icons
           .map(
             (data) => InkWell(
-              onTap: () {},
+              onTap: () {
+
+                if (data["link"] == "email") {
+                   
+                } else {
+                  openLink(link: data["link"] as String);
+
+                  
+                }
+                
+              },
               borderRadius: BorderRadius.circular(12),
               child: Container(
                 padding: EdgeInsets.all(12.w),
