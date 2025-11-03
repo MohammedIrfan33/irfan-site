@@ -6,7 +6,6 @@ import 'package:irfan/home/portfolio_footer.dart';
 import 'package:irfan/home/portfolio_section.dart';
 import 'package:irfan/home/portfolio_tech.dart';
 import 'package:irfan/utils/helper.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../widgets/contact_button.dart';
 import '../widgets/social_icon_button.dart';
 
@@ -70,8 +69,6 @@ class PortfolioHome extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -83,11 +80,9 @@ class PortfolioHome extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: openWhatsApp,
-        shape: CircleBorder(),
-        child:  Icon(FontAwesomeIcons.whatsapp, color: Colors.white, size: 30),
+        shape: const CircleBorder(),
+        child: const Icon(FontAwesomeIcons.whatsapp, color: Colors.white, size: 30),
       ),
-
-      // Optional: position control
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: isMobile
           ? AppBar(
@@ -97,8 +92,9 @@ class PortfolioHome extends StatelessWidget {
               title: Text(
                 "IRFAN",
                 style: TextStyle(
-                  fontSize: 20.sp,
+                  fontSize: isMobile?  80.sp  : 30.sp, // Increased for better readability
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
                   color: Colors.white,
                 ),
               ),
@@ -130,16 +126,10 @@ class PortfolioHome extends StatelessWidget {
                       child: Row(
                         children: [
                           _buildSocialIcon(Icons.link, Colors.blue, () {
-
-
                             openLink(link: 'https://surl.lu/knwykh');
                           }),
                           SizedBox(width: 12.w),
-                          _buildSocialIcon(Icons.code, Colors.white, () {
-
-                          }),
-                          SizedBox(width: 12.w),
-                     
+                          _buildSocialIcon(Icons.code, Colors.white, () {}),
                         ],
                       ),
                     )
@@ -153,29 +143,22 @@ class PortfolioHome extends StatelessWidget {
           if (!isMobile)
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-              decoration: BoxDecoration(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Logo/Name
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: Text(
                       "IRFAN",
                       style: TextStyle(
-                        fontSize: 24.sp,
+                        fontSize: isMobile ? 36.sp : (isTablet ? 30.sp : 26.sp),
                         fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
                         color: Colors.white,
                       ),
                     ),
                   ),
-
                   // Navigation Items
                   Row(
                     children: [
@@ -212,17 +195,12 @@ class PortfolioHome extends StatelessWidget {
                             ],
                           )
                         : Row(
-                      children: [
-                        Expanded(
-                          child: _HeroTexts(isMobile: false),
-                        ),
-                        Expanded(
-                          child: _HeroImage(isMobile: false),
-                        ),
-                      ],
-                    ),
+                            children: [
+                              Expanded(child: _HeroTexts(isMobile: false)),
+                              Expanded(child: _HeroImage(isMobile: false)),
+                            ],
+                          ),
                   ),
-
                   PortfolioSection(),
                   AboutSection(),
                   TechSection(),
@@ -244,8 +222,10 @@ class _HeroTexts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isTablet = MediaQuery.of(context).size.width >= 600 && MediaQuery.of(context).size.width < 1024;
-    final double titleSize = isMobile ? 42.sp : (isTablet ? 72.sp : 100.sp);
-    final double subtitleSize = isMobile ? 14.sp : 18.sp;
+
+    // ✅ Improved readability
+    final double titleSize = 100.sp;
+    final double subtitleSize = isMobile ? 45.sp : (isTablet ? 40.sp : 20.sp);
 
     return Column(
       crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
@@ -257,7 +237,7 @@ class _HeroTexts extends StatelessWidget {
             fontSize: titleSize,
             color: Colors.white,
             letterSpacing: 2,
-            height: 1,
+            height: 1.2, // Better line spacing
           ),
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
         ),
@@ -267,49 +247,44 @@ class _HeroTexts extends StatelessWidget {
             fontSize: titleSize,
             color: Colors.white,
             letterSpacing: 2,
-            height: 1,
+            height: 1.2,
+            fontWeight: FontWeight.bold,
           ),
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
         ),
-        SizedBox(height: 13.h),
+        SizedBox(height: 16.h),
         Text(
-          "Passionate Flutter & Laravel developer creating innovative mobile and web solutions \nwith a focus on user experience and clean code.",
+          "Passionate Flutter & Laravel developer creating innovative mobile and web solutions\nwith a focus on user experience and clean code.",
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
           style: TextStyle(
             fontSize: subtitleSize,
             fontFamily: 'Manrope',
             fontWeight: FontWeight.w400,
+            height: 1.4,
             color: const Color(0xffC7C7C7),
           ),
         ),
-        SizedBox(height: 24.h),
+        SizedBox(height: 30.h),
         Wrap(
           spacing: 16.w,
           runSpacing: 12.h,
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
           children: [
-            ContactButton(
-              onPressed: () {
-                openWhatsApp();
-              },
-            ),
+             SizedBox(
+      width: isMobile ? double.infinity : null, 
+      child: ContactButton(onPressed: openWhatsApp),
+    ),
             SocialIconButton(
               icon: Icons.link,
-              onPressed: () {
-                openLink(link: 'https://surl.lu/knwykh');
-              },
+              onPressed: () => openLink(link: 'https://surl.lu/knwykh'),
               tooltip: 'LinkedIn',
             ),
             SocialIconButton(
               icon: Icons.code,
-              onPressed: () {
-                  openLink(link: 'https://github.com/MohammedIrfan33');
-                
-              },
+              onPressed: () => openLink(link: 'https://github.com/MohammedIrfan33'),
               tooltip: 'GitHub',
             ),
-            
           ],
         ),
       ],
@@ -325,7 +300,7 @@ class _HeroImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isTablet = MediaQuery.of(context).size.width >= 600 && MediaQuery.of(context).size.width < 1024;
     final double imageWidth = isMobile ? double.infinity : (isTablet ? 480.w : 600.w);
-    final double imageHeight = isMobile ? 380.h : (isTablet ? 560.h : 700.h);
+    final double imageHeight = isMobile ? 420.h : (isTablet ? 560.h : 700.h);
 
     return Container(
       alignment: Alignment.center,
@@ -336,8 +311,8 @@ class _HeroImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(25.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 20,
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 25,
               offset: const Offset(0, 10),
             ),
           ],
@@ -347,16 +322,10 @@ class _HeroImage extends StatelessWidget {
           child: Image.asset(
             'assets/images/profile.jpeg',
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                color: Colors.grey[300],
-                child: Icon(
-                  Icons.person,
-                  size: 80.sp,
-                  color: Colors.grey[600],
-                ),
-              );
-            },
+            errorBuilder: (context, error, stackTrace) => Container(
+              color: Colors.grey[300],
+              child: Icon(Icons.person, size: 80.sp, color: Colors.grey[600]),
+            ),
           ),
         ),
       ),
