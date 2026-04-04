@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:irfan/utils/responsive.dart';
 
 class TechSection extends StatelessWidget {
   const TechSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
+    final bool isMobile = ResponsiveLayout.isMobile(context);
 
     return Container(
       color: const Color(0xff0e0e0e),

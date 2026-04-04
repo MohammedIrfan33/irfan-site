@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:irfan/utils/responsive.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
-    final bool isTablet = MediaQuery.of(context).size.width >= 600 && MediaQuery.of(context).size.width < 1024;
+    final bool isMobile = ResponsiveLayout.isMobile(context);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 80.h),

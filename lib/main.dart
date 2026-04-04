@@ -13,20 +13,36 @@ class PortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(1920, 951), // iPhone X design size
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          title: 'My Portfolio',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'BebasNeue',
-            scaffoldBackgroundColor: AppColors.backgroundColor,
-            primaryColor: AppColors.primaryColor,
-          ),
-          home: const PortfolioHome(),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Evaluate the current constraints to provide an appropriate baseline
+        // so that .sp and .w don't shrink too much on mobile.
+        final Size designSize;
+        if (constraints.maxWidth < 600) {
+          designSize = const Size(390, 844); // Mobile baseline
+        } else if (constraints.maxWidth < 1024) {
+          designSize = const Size(834, 1194); // Tablet baseline
+        } else {
+          designSize = const Size(1440, 900); // Desktop baseline
+        }
+
+        return ScreenUtilInit(
+          designSize: designSize,
+          minTextAdapt: true,
+          splitScreenMode: true,
+          useInheritedMediaQuery: true,
+          builder: (context, child) {
+            return MaterialApp(
+              title: 'My Portfolio',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                fontFamily: 'BebasNeue',
+                scaffoldBackgroundColor: AppColors.backgroundColor,
+                primaryColor: AppColors.primaryColor,
+              ),
+              home: const PortfolioHome(),
+            );
+          },
         );
       },
     );

@@ -59,8 +59,11 @@ class ContactButton extends StatelessWidget {
           ),
         );
 
-        // Keep natural width; do not force full width on mobile
-        return button;
+        final Widget wrappedButton = isNarrow
+            ? SizedBox(width: double.infinity, child: button)
+            : button;
+
+        return wrappedButton;
       },
     );
   }

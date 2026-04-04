@@ -6,6 +6,7 @@ import 'package:irfan/home/portfolio_footer.dart';
 import 'package:irfan/home/portfolio_section.dart';
 import 'package:irfan/home/portfolio_tech.dart';
 import 'package:irfan/utils/helper.dart';
+import 'package:irfan/utils/responsive.dart';
 import '../widgets/contact_button.dart';
 import '../widgets/social_icon_button.dart';
 
@@ -71,10 +72,10 @@ class PortfolioHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final bool isMobile = screenSize.width < 600;
-    final bool isTablet = screenSize.width >= 600 && screenSize.width < 1024;
-    final bool isDesktop = screenSize.width >= 1024;
+    final bool isMobile = ResponsiveLayout.isMobile(context);
+    final bool isTablet = ResponsiveLayout.isTablet(context);
+    final bool isDesktop = ResponsiveLayout.isDesktop(context);
+    final bool isLargeDesktop = ResponsiveLayout.isLargeDesktop(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -92,7 +93,7 @@ class PortfolioHome extends StatelessWidget {
               title: Text(
                 "IRFAN",
                 style: TextStyle(
-                  fontSize: isMobile?  80.sp  : 30.sp, // Increased for better readability
+                  fontSize: 24.sp, // Responsive font size
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                   color: Colors.white,
@@ -142,7 +143,7 @@ class PortfolioHome extends StatelessWidget {
         children: [
           if (!isMobile)
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+              padding: EdgeInsets.symmetric(horizontal: isDesktop ? 40.w : 24.w, vertical: 18.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -152,7 +153,7 @@ class PortfolioHome extends StatelessWidget {
                     child: Text(
                       "IRFAN",
                       style: TextStyle(
-                        fontSize: isMobile ? 36.sp : (isTablet ? 30.sp : 26.sp),
+                        fontSize: isLargeDesktop ? 30.sp : 26.sp,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         color: Colors.white,
@@ -163,9 +164,9 @@ class PortfolioHome extends StatelessWidget {
                   Row(
                     children: [
                       _buildNavItem("Work", () {}),
-                      SizedBox(width: 20.w),
+                      SizedBox(width: 28.w),
                       _buildNavItem("About", () {}),
-                      SizedBox(width: 20.w),
+                      SizedBox(width: 28.w),
                       _buildDownloadButton(),
                     ],
                   ),
@@ -180,24 +181,26 @@ class PortfolioHome extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: isDesktop ? 700.h : (isTablet ? 650.h : null),
-                    padding: EdgeInsets.symmetric(horizontal: isDesktop ? 50.w : 20.w, vertical: isMobile ? 24.h : 0),
+                    height: isDesktop ? 680.h : (isTablet ? 600.h : null),
+                    padding: EdgeInsets.symmetric(horizontal: isDesktop ? 60.w : 24.w, vertical: isMobile ? 24.h : 0),
                     alignment: Alignment.center,
-                    constraints: const BoxConstraints(maxWidth: 1200),
+                    constraints: const BoxConstraints(maxWidth: 1280),
                     child: isMobile
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               _HeroTexts(isMobile: true),
-                              SizedBox(height: 24.h),
+                              SizedBox(height: 28.h),
                               _HeroImage(isMobile: true),
                             ],
                           )
                         : Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Expanded(child: _HeroTexts(isMobile: false)),
-                              Expanded(child: _HeroImage(isMobile: false)),
+                              Expanded(flex: 6, child: _HeroTexts(isMobile: false)),
+                              SizedBox(width: isTablet ? 24.w : 40.w),
+                              Expanded(flex: 5, child: _HeroImage(isMobile: false)),
                             ],
                           ),
                   ),
@@ -221,11 +224,11 @@ class _HeroTexts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isTablet = MediaQuery.of(context).size.width >= 600 && MediaQuery.of(context).size.width < 1024;
+    final bool isTablet = ResponsiveLayout.isTablet(context);
 
     // ✅ Improved readability
-    final double titleSize = 100.sp;
-    final double subtitleSize = isMobile ? 45.sp : (isTablet ? 40.sp : 20.sp);
+    final double titleSize = isMobile ? 44.sp : (isTablet ? 64.sp : 86.sp);
+    final double subtitleSize = isMobile ? 16.sp : (isTablet ? 18.sp : 20.sp);
 
     return Column(
       crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
@@ -271,10 +274,10 @@ class _HeroTexts extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
           children: [
-             SizedBox(
-      width: isMobile ? double.infinity : null, 
-      child: ContactButton(onPressed: openWhatsApp),
-    ),
+            SizedBox(
+              width: isMobile ? double.infinity : null,
+              child: ContactButton(onPressed: openWhatsApp),
+            ),
             SocialIconButton(
               icon: Icons.link,
               onPressed: () => openLink(link: 'https://surl.lu/knwykh'),
@@ -298,9 +301,9 @@ class _HeroImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isTablet = MediaQuery.of(context).size.width >= 600 && MediaQuery.of(context).size.width < 1024;
-    final double imageWidth = isMobile ? double.infinity : (isTablet ? 480.w : 600.w);
-    final double imageHeight = isMobile ? 420.h : (isTablet ? 560.h : 700.h);
+    final bool isTablet = ResponsiveLayout.isTablet(context);
+    final double imageWidth = isMobile ? double.infinity : (isTablet ? 320.w : 440.w);
+    final double imageHeight = isMobile ? 300.h : (isTablet ? 380.h : 520.h);
 
     return Container(
       alignment: Alignment.center,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:irfan/utils/responsive.dart';
 
 class PortfolioSection extends StatelessWidget {
   const PortfolioSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
+    final bool isMobile = ResponsiveLayout.isMobile(context);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 60.h),
@@ -52,7 +53,7 @@ class PortfolioSection extends StatelessWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 20.w,
                   mainAxisSpacing: 20.h,
-                  childAspectRatio: 1.3,
+                  childAspectRatio: isMobile ? 1.0 : 1.3,
                 ),
                 itemCount: 6, // Number of portfolio items
                 itemBuilder: (context, index) {

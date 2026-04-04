@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:irfan/utils/responsive.dart';
 
 class SocialIconButton extends StatelessWidget {
   final IconData icon;
@@ -21,7 +22,7 @@ class SocialIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isNarrow = MediaQuery.of(context).size.width < 600;
+    final bool isNarrow = ResponsiveLayout.isMobile(context);
     final double computedSize = isNarrow ? (size * 0.8) : size;
     final double iconSize = isNarrow ? 20.sp : 24.sp;
 

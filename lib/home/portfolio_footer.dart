@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:irfan/utils/helper.dart';
+import 'package:irfan/utils/responsive.dart';
 
 class FooterSection extends StatelessWidget {
   const FooterSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
+    final bool isMobile = ResponsiveLayout.isMobile(context);
 
     return Container(
       color: const Color(0xff0a0a0a),
