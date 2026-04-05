@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:irfan/utils/responsive.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:irfan/constants/projects.dart';
 
 class PortfolioSection extends StatelessWidget {
   const PortfolioSection({super.key});
@@ -55,15 +57,21 @@ class PortfolioSection extends StatelessWidget {
                   mainAxisSpacing: 20.h,
                   childAspectRatio: isMobile ? 1.0 : 1.3,
                 ),
-                itemCount: 6, // Number of portfolio items
+                itemCount: myProjects.length,
                 itemBuilder: (context, index) {
+                  final project = myProjects[index];
                   return _PortfolioCard(
-                    title: "Project ${index + 1}",
-                    description:
-                        "A short description of your project showcasing key features or technologies used.",
-                    image: "assets/images/project${(index % 3) + 1}.jpg",
+                    title: project.title,
+                    image: project.imagePath,
+                    appIcon: project.appIcon,
+                    isContribution: project.isContribution,
+                    stateManagement: project.stateManagement,
+                    technologies: project.technologies,
+                    playStoreUrl: project.playStoreUrl,
+                    appStoreUrl: project.appStoreUrl,
+                    githubUrl: project.githubUrl,
                     onTap: () {
-                      print("Tapped on project ${index + 1}");
+                      print("Tapped on ${project.title}");
                     },
                   );
                 },
@@ -78,16 +86,35 @@ class PortfolioSection extends StatelessWidget {
 
 class _PortfolioCard extends StatelessWidget {
   final String title;
-  final String description;
   final String image;
+  final String? appIcon;
+  final bool isContribution;
+  final String? stateManagement;
+  final String? technologies;
+  final String? playStoreUrl;
+  final String? appStoreUrl;
+  final String? githubUrl;
   final VoidCallback onTap;
 
   const _PortfolioCard({
     required this.title,
-    required this.description,
     required this.image,
+    this.appIcon,
+    this.isContribution = false,
+    this.stateManagement,
+    this.technologies,
+    this.playStoreUrl,
+    this.appStoreUrl,
+    this.githubUrl,
     required this.onTap,
   });
+
+  Future<void> _launchURL(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      debugPrint('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,60 +133,211 @@ class _PortfolioCard extends StatelessWidget {
             // Project Image
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15.r)),
-              child: Image.asset(
-                image,
-                height: 150.h,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: 150.h,
-                  color: Colors.grey[800],
-                  child: const Center(
-                    child: Icon(Icons.broken_image, color: Colors.white54),
-                  ),
-                ),
-              ),
+              child: image.startsWith('http')
+                  ? Image.network(
+                      image,
+                      height: 250.h,
+                      width: double.infinity,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        height: 220.h,
+                        color: Colors.grey[800],
+                        child: const Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            color: Colors.white54,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Image.asset(
+                      image,
+                      height: 220.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        height: 220.h,
+                        color: Colors.grey[800],
+                        child: const Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            color: Colors.white54,
+                          ),
+                        ),
+                      ),
+                    ),
             ),
 
             // Text Details
-            Padding(
-              padding: EdgeInsets.all(12.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 6.h),
-                  Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.grey[400],
-                      height: 1.4,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Row(
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(12.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.link, color: Colors.white70, size: 18),
-                      SizedBox(width: 6.w),
-                      Text(
-                        "View Project",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.sp,
-                          fontFamily: 'Manrope',
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: 'Manrope',
+                              ),
+                            ),
+                            if (isContribution)
+                              Padding(
+                                padding: EdgeInsets.only(top: 6.h),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(4.r),
+                                    border: Border.all(color: Colors.green),
+                                  ),
+                                  child: Text("Contributor", style: TextStyle(color: Colors.greenAccent, fontSize: 10.sp, fontFamily: 'Manrope')),
+                                ),
+                              ),
+                            SizedBox(height: 6.h),
+                            if (technologies != null) ...[
+                              SizedBox(height: 8.h),
+                              Text(
+                                "Tech: $technologies",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Manrope',
+                                ),
+                              ),
+                            ],
+                            if (stateManagement != null) ...[
+                              SizedBox(height: 4.h),
+                              Text(
+                                "State Management: $stateManagement",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Manrope',
+                                ),
+                              ),
+                            ],
+                            SizedBox(height: 10.h),
+
+                            Wrap(
+                              spacing: 12.w,
+                              runSpacing: 8.h,
+                              children: [
+                                if (playStoreUrl != null)
+                                  InkWell(
+                                    onTap: () => _launchURL(playStoreUrl!),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                          Icons.shop,
+                                          color: Colors.white70,
+                                          size: 18,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(
+                                          "Play Store",
+                                          style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 12.sp,
+                                            fontFamily: 'Manrope',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                if (appStoreUrl != null)
+                                  InkWell(
+                                    onTap: () => _launchURL(appStoreUrl!),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                          Icons.apple,
+                                          color: Colors.white70,
+                                          size: 18,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(
+                                          "App Store",
+                                          style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 12.sp,
+                                            fontFamily: 'Manrope',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                if (githubUrl != null)
+                                  InkWell(
+                                    onTap: () => _launchURL(githubUrl!),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                          Icons.code,
+                                          color: Colors.white70,
+                                          size: 18,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(
+                                          "GitHub",
+                                          style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 12.sp,
+                                            fontFamily: 'Manrope',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
+
+                      if (appIcon != null)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: appIcon!.startsWith('http')
+                              ? Image.network(
+                                  appIcon!,
+                                  width: 40.w,
+                                  height: 40.w,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Container(
+                                        width: 40.w,
+                                        height: 40.w,
+                                        color: Colors.grey[800],
+                                      ),
+                                )
+                              : Image.asset(
+                                  appIcon!,
+                                  width: 40.w,
+                                  height: 40.w,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Container(
+                                        width: 40.w,
+                                        height: 40.w,
+                                        color: Colors.grey[800],
+                                      ),
+                                ),
+                        ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ],
