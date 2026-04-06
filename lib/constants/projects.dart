@@ -25,8 +25,9 @@ class ProjectModel {
 final List<ProjectModel> myProjects = [
   ProjectModel(
     title: "Drkcare",
-    
-    imagePath:"https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/8c/a9/8a/8ca98a3b-245a-4645-7cc2-97a5022eba1d/Placeholder.mill/400x400bb-75.webp",
+
+    imagePath:
+        "https://github.com/MohammedIrfan33/irfan-site/blob/main/assets/image.png",
     appStoreUrl: "https://apps.apple.com/sa/app/drkcare/id6755625727",
     stateManagement: "Bloc",
     technologies: "Flutter,Larvel-api,clean arch",
