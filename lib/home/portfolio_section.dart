@@ -136,7 +136,7 @@ class _PortfolioCard extends StatelessWidget {
               child: image.startsWith('http')
                   ? Image.network(
                       image,
-                      height: 245.h,
+                      height: 220.h,
                       width: double.infinity,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) => Container(
