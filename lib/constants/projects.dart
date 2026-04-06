@@ -24,6 +24,16 @@ class ProjectModel {
 
 final List<ProjectModel> myProjects = [
   ProjectModel(
+    title: "Drkcare",
+    
+    imagePath:"https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/8c/a9/8a/8ca98a3b-245a-4645-7cc2-97a5022eba1d/Placeholder.mill/400x400bb-75.webp",
+    appStoreUrl: "https://apps.apple.com/sa/app/drkcare/id6755625727",
+    stateManagement: "Bloc",
+    technologies: "Flutter,Larvel-api,clean arch",
+    appIcon:
+        'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/8c/a9/8a/8ca98a3b-245a-4645-7cc2-97a5022eba1d/Placeholder.mill/400x400bb-75.webp',
+  ),
+  ProjectModel(
     title: "Etracker Go",
     imagePath:
         "https://play-lh.googleusercontent.com/Neo5u2q5748Ntu4I0BWlu8ge57Eei6S-dOotYGQ6Wz4DbFFkScONGyqCdungcD-BKldbjMFFXiXcWty9nQ_E5A=w832-h470-rw",
