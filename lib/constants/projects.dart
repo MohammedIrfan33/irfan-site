@@ -77,20 +77,25 @@ final List<ProjectModel> myProjects = [
     title: "SAFE COC",
     imagePath:
         "https://play-lh.googleusercontent.com/i4DyAi1vp-83S3kwMSiwx5fBRn90YGdQzoPOnOqUz8Q6rVUvmyU0H-htBpwntIAp7cc=w832-h470-rw",
-    playStoreUrl:"https://play.google.com/store/apps/details?id=com.workmate.safechallenge&hl=en_IN",
+    playStoreUrl:
+        "https://play.google.com/store/apps/details?id=com.workmate.safechallenge&hl=en_IN",
     appStoreUrl: "https://apps.apple.com/in/app/safe-coc/id6740491989",
-    appIcon:'https://play-lh.googleusercontent.com/3vja4Xx_qpHIvMXd44oCOa-dGe6y_7Wr8tZCQ3JL4-xnzbKy9llgtIqAigom-2U_gg=w480-h960-rw',
+    appIcon:
+        'https://play-lh.googleusercontent.com/3vja4Xx_qpHIvMXd44oCOa-dGe6y_7Wr8tZCQ3JL4-xnzbKy9llgtIqAigom-2U_gg=w480-h960-rw',
     isContribution: true,
     stateManagement: "Getx",
     technologies: "Flutter,PHP, Omniware paymentgatway",
   ),
   ProjectModel(
-    title: "Project 6",
-    imagePath:'https://play-lh.googleusercontent.com/bqV0eZah_Ydp1EBNz6FyWoDmUGPJPNYP7FTKi0C7niITKUvIWmIJxSyQONsSY0jToHc=w832-h470-rw',
-    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.gelcargo_app&hl=en_IN',
+    title: "GEL Cargo",
+    imagePath:
+        'https://play-lh.googleusercontent.com/bqV0eZah_Ydp1EBNz6FyWoDmUGPJPNYP7FTKi0C7niITKUvIWmIJxSyQONsSY0jToHc=w832-h470-rw',
+    playStoreUrl:
+        'https://play.google.com/store/apps/details?id=com.gelcargo_app&hl=en_IN',
     appStoreUrl: 'https://apps.apple.com/in/app/gel-cargo/id1641654606',
     isContribution: true,
-    appIcon:'https://play-lh.googleusercontent.com/YGyN1rFyPij6wupD8EXOwCrCtgJZgCcmqd1rg6RvMEp32IhMeNCZRGVVrxJamN1alkI=w480-h960-rw',
+    appIcon:
+        'https://play-lh.googleusercontent.com/YGyN1rFyPij6wupD8EXOwCrCtgJZgCcmqd1rg6RvMEp32IhMeNCZRGVVrxJamN1alkI=w480-h960-rw',
     stateManagement: "Set state",
     technologies: "Flutter,PHP-LARAVEL,",
   ),

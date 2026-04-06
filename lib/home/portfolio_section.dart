@@ -136,7 +136,7 @@ class _PortfolioCard extends StatelessWidget {
               child: image.startsWith('http')
                   ? Image.network(
                       image,
-                      height: 250.h,
+                      height: 245.h,
                       width: double.infinity,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) => Container(
@@ -180,31 +180,45 @@ class _PortfolioCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontFamily: 'Manrope',
-                              ),
-                            ),
-                            if (isContribution)
-                              Padding(
-                                padding: EdgeInsets.only(top: 6.h),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                    border: Border.all(color: Colors.green),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  title,
+                                  style: TextStyle(
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontFamily: 'Manrope',
                                   ),
-                                  child: Text("Contributor", style: TextStyle(color: Colors.greenAccent, fontSize: 10.sp, fontFamily: 'Manrope')),
                                 ),
-                              ),
-                            SizedBox(height: 6.h),
+                                SizedBox(width: 3),
+                                if (isContribution)
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 5.w,
+                                      vertical: 2.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(4.r),
+                                      border: Border.all(color: Colors.green),
+                                    ),
+                                    child: Text(
+                                      "Contributor",
+                                      style: TextStyle(
+                                        color: Colors.greenAccent,
+                                        fontSize: 9.sp,
+                                        fontFamily: 'Manrope',
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            SizedBox(height: 5.h),
                             if (technologies != null) ...[
-                              SizedBox(height: 8.h),
+                              SizedBox(height: 7.h),
                               Text(
                                 "Tech: $technologies",
                                 style: TextStyle(
@@ -220,7 +234,7 @@ class _PortfolioCard extends StatelessWidget {
                                 "State Management: $stateManagement",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 12.sp,
+                                  fontSize: 11.sp,
                                   fontFamily: 'Manrope',
                                 ),
                               ),
@@ -229,7 +243,7 @@ class _PortfolioCard extends StatelessWidget {
 
                             Wrap(
                               spacing: 12.w,
-                              runSpacing: 8.h,
+                              runSpacing: 5.h,
                               children: [
                                 if (playStoreUrl != null)
                                   InkWell(

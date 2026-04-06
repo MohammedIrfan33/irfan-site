@@ -10,8 +10,26 @@ import 'package:irfan/utils/responsive.dart';
 import '../widgets/contact_button.dart';
 import '../widgets/social_icon_button.dart';
 
-class PortfolioHome extends StatelessWidget {
+class PortfolioHome extends StatefulWidget {
   const PortfolioHome({super.key});
+
+  @override
+  State<PortfolioHome> createState() => _PortfolioHomeState();
+}
+
+class _PortfolioHomeState extends State<PortfolioHome> {
+  final GlobalKey _workKey = GlobalKey();
+  final GlobalKey _aboutKey = GlobalKey();
+
+  void _scrollToSection(GlobalKey key) {
+    if (key.currentContext != null) {
+      Scrollable.ensureVisible(
+        key.currentContext!,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   Widget _buildNavItem(String text, VoidCallback onTap) {
     return InkWell(
@@ -29,27 +47,33 @@ class PortfolioHome extends StatelessWidget {
   }
 
   Widget _buildDownloadButton() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.download, color: Colors.black, size: 18.sp),
-          SizedBox(width: 8.w),
-          Text(
-            "Resume",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
-              fontSize: 14.sp,
-              fontFamily: 'Manrope',
+    return InkWell(
+      onTap: () {
+        openLink(link: 'https://drive.google.com/'); // <- Paste your Google Drive link here!
+      },
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.download, color: Colors.black, size: 18.sp),
+            SizedBox(width: 8.w),
+            Text(
+              "Resume",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.sp,
+                fontFamily: 'Manrope',
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -82,7 +106,11 @@ class PortfolioHome extends StatelessWidget {
         backgroundColor: Colors.green,
         onPressed: openWhatsApp,
         shape: const CircleBorder(),
-        child: const Icon(FontAwesomeIcons.whatsapp, color: Colors.white, size: 30),
+        child: const Icon(
+          FontAwesomeIcons.whatsapp,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: isMobile
@@ -111,11 +139,26 @@ class PortfolioHome extends StatelessWidget {
                       padding: EdgeInsets.all(16.0),
                       child: Text(
                         'MENU',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                    ListTile(title: const Text('Work'), onTap: () => Navigator.pop(context)),
-                    ListTile(title: const Text('About'), onTap: () => Navigator.pop(context)),
+                    ListTile(
+                      title: const Text('Work'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollToSection(_workKey);
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('About'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollToSection(_aboutKey);
+                      },
+                    ),
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -133,7 +176,7 @@ class PortfolioHome extends StatelessWidget {
                           _buildSocialIcon(Icons.code, Colors.white, () {}),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -143,13 +186,19 @@ class PortfolioHome extends StatelessWidget {
         children: [
           if (!isMobile)
             Container(
-              padding: EdgeInsets.symmetric(horizontal: isDesktop ? 40.w : 24.w, vertical: 18.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: isDesktop ? 40.w : 24.w,
+                vertical: 18.h,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Logo/Name
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     child: Text(
                       "IRFAN",
                       style: TextStyle(
@@ -163,9 +212,9 @@ class PortfolioHome extends StatelessWidget {
                   // Navigation Items
                   Row(
                     children: [
-                      _buildNavItem("Work", () {}),
+                      _buildNavItem("Work", () => _scrollToSection(_workKey)),
                       SizedBox(width: 28.w),
-                      _buildNavItem("About", () {}),
+                      _buildNavItem("About", () => _scrollToSection(_aboutKey)),
                       SizedBox(width: 28.w),
                       _buildDownloadButton(),
                     ],
@@ -182,7 +231,10 @@ class PortfolioHome extends StatelessWidget {
                 children: [
                   Container(
                     height: isDesktop ? 680.h : (isTablet ? 600.h : null),
-                    padding: EdgeInsets.symmetric(horizontal: isDesktop ? 60.w : 24.w, vertical: isMobile ? 24.h : 0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 60.w : 24.w,
+                      vertical: isMobile ? 24.h : 0,
+                    ),
                     alignment: Alignment.center,
                     constraints: const BoxConstraints(maxWidth: 1280),
                     child: isMobile
@@ -198,16 +250,23 @@ class PortfolioHome extends StatelessWidget {
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Expanded(flex: 6, child: _HeroTexts(isMobile: false)),
+                              Expanded(
+                                flex: 6,
+                                child: _HeroTexts(isMobile: false),
+                              ),
                               SizedBox(width: isTablet ? 24.w : 40.w),
-                              Expanded(flex: 5, child: _HeroImage(isMobile: false)),
+                              Expanded(
+                                flex: 5,
+                                child: _HeroImage(isMobile: false),
+                              ),
                             ],
                           ),
                   ),
-                  PortfolioSection(),
-                  AboutSection(),
+                  PortfolioSection(key: _workKey),
+                  SizedBox(height: 30.h),
+                  AboutSection(key: _aboutKey),
                   TechSection(),
-                  FooterSection()
+                  FooterSection(),
                 ],
               ),
             ),
@@ -231,7 +290,9 @@ class _HeroTexts extends StatelessWidget {
     final double subtitleSize = isMobile ? 16.sp : (isTablet ? 18.sp : 20.sp);
 
     return Column(
-      crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      crossAxisAlignment: isMobile
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -285,7 +346,8 @@ class _HeroTexts extends StatelessWidget {
             ),
             SocialIconButton(
               icon: Icons.code,
-              onPressed: () => openLink(link: 'https://github.com/MohammedIrfan33'),
+              onPressed: () =>
+                  openLink(link: 'https://github.com/MohammedIrfan33'),
               tooltip: 'GitHub',
             ),
           ],
@@ -302,7 +364,9 @@ class _HeroImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isTablet = ResponsiveLayout.isTablet(context);
-    final double imageWidth = isMobile ? double.infinity : (isTablet ? 320.w : 440.w);
+    final double imageWidth = isMobile
+        ? double.infinity
+        : (isTablet ? 320.w : 440.w);
     final double imageHeight = isMobile ? 300.h : (isTablet ? 380.h : 520.h);
 
     return Container(
